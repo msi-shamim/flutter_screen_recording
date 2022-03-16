@@ -56,7 +56,7 @@ class FlutterScreenRecordingPlugin(
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Boolean {
 
         if (requestCode == SCREEN_RECORD_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -84,8 +84,8 @@ class FlutterScreenRecordingPlugin(
 
                 mProjectionManager = registrar.context().applicationContext.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager?
 
-                videoName = call.argument<String?>("name")
-                recordAudio = call.argument<Boolean?>("audio")
+                videoName = call.argument<String>("name")
+                recordAudio = call.argument<Boolean>("audio")
                 initMediaRecorder();
                 startRecordScreen()
                 //result.success(true)
@@ -168,7 +168,7 @@ class FlutterScreenRecordingPlugin(
 
         } catch (e: IOException) {
             println("ERR");
-            Log.d("--INIT-RECORDER", e.message)
+            //Log.d("--INIT-RECORDER", e.message)
             println("Error startRecordScreen")
             println(e.message)
         }
@@ -186,7 +186,7 @@ class FlutterScreenRecordingPlugin(
             println("stopRecordScreen success")
 
         } catch (e: Exception) {
-            Log.d("--INIT-RECORDER", e.message)
+            //Log.d("--INIT-RECORDER", e.message)
             println("stopRecordScreen error")
             println(e.message)
 
