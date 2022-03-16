@@ -28,7 +28,7 @@ import android.graphics.Point
 class FlutterScreenRecordingPlugin(
         private val registrar: Registrar
 ) : MethodCallHandler,
-        PluginRegistry.ActivityResultListener {
+    PluginRegistry.ActivityResultListener {
 
     var mScreenDensity: Int = 0
     var mMediaRecorder: MediaRecorder? = null

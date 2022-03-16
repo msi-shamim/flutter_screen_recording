@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_recording/flutter_screen_recording.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quiver/async.dart';
 
 void main() => runApp(MyApp());
@@ -18,11 +18,51 @@ class _MyAppState extends State<MyApp> {
   int _time = 0;
 
   requestPermissions() async {
-    await PermissionHandler().requestPermissions([
-      PermissionGroup.storage,
-      PermissionGroup.photos,
-      PermissionGroup.microphone,
-    ]);
+    await storagePermission();
+    await photosPermission();
+    await microphonePermission();
+  }
+
+  Future<void> storagePermission() async {
+    final serviceStatusStorage = await Permission.storage.isGranted;
+    bool isStorage = serviceStatusStorage == ServiceStatus.enabled;
+    final status = await Permission.storage.request();
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
+  }
+
+  Future<void> photosPermission() async {
+    final serviceStatusPhotos = await Permission.photos.isGranted;
+    bool isPhotos = serviceStatusPhotos == ServiceStatus.enabled;
+    final status = await Permission.photos.request();
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
+  }
+
+  Future<void> microphonePermission() async {
+    final serviceStatusMicrophone = await Permission.microphone.isGranted;
+    bool isMicrophone = serviceStatusMicrophone == ServiceStatus.enabled;
+    final status = await Permission.microphone.request();
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
   }
 
   @override
@@ -97,9 +137,13 @@ class _MyAppState extends State<MyApp> {
     await Future.delayed(const Duration(milliseconds: 1000));
 
     if (audio) {
-      start = await FlutterScreenRecording.startRecordScreenAndAudio("Title" + _time.toString(),  titleNotification:"dsffad", messageNotification: "sdffd");
+      start = await FlutterScreenRecording.startRecordScreenAndAudio(
+          "Title" + _time.toString(),
+          titleNotification: "dsffad",
+          messageNotification: "sdffd");
     } else {
-      start = await FlutterScreenRecording.startRecordScreen("Title", titleNotification:"dsffad", messageNotification: "sdffd");
+      start = await FlutterScreenRecording.startRecordScreen("Title",
+          titleNotification: "dsffad", messageNotification: "sdffd");
     }
 
     if (start) {

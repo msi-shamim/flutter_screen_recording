@@ -5,13 +5,13 @@ homepage: 'https://github.com/Isvisoft/flutter_screen_recording'
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
-  flutter: ^1.10.0
+  flutter: ^2.10.3
 
 dependencies:
   flutter:
     sdk: flutter
 #  foreground_service: ^1.3.0
-  flutter_foreground_plugin: ^0.4.0
+  flutter_foreground_plugin: ^0.8.0
 
 dev_dependencies:
   flutter_test:
